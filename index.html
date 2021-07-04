@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="pt-br" ng-app="crud">
+<head>
+        <meta charset="UTF-8">
+        <title>CRUD com AngularJS</title>
+        <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+        <link rel="stylesheet" type="text/css" href="css/main.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="css/font-awesome.min.css">
+        <script src="angular/angular.min.js"></script>
+        <script src="angular/app.js"></script>
+    </head>
+
+
+    <body ng-controller="controller">
+        <div class="table-title">
+            <div class="row">
+                <div class="text-center header">
+                    <img src="src/logo.png"/>
+                </div>
+            </div>
+        </div>
+        <div class="row cadastro-model">
+            <div class='col-sm-offset-2 col-sm-2'>
+                <h3> Controle de alunos </h3>
+            </div>
+            <div class="search-container col-sm-4">
+                <input type="text" placeholder="Pesquisar.." name="search" ng-model="criterio">
+                <i class="fa fa-search"></i>
+            </div>
+            <div class='col-sm-2'>
+                <button type="button" class="btn btn-primary cadastro" data-toggle="modal" data-target="#myModal">
+                    <i class="material-icons">&#xE147;</i>
+                    <span>Cadastrar novo aluno</span>
+                </button>
+            </div>
+        </div>
+        <hr>
+        <div class=' col-sm-offset-1 col-sm-10 table-box'>
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th style="border: 0px;">Nome</th>
+                    <th style="border: 0px;">RA</th>
+                    <th style="border: 0px;">Turma</th>
+                    <th style="border: 0px;">Telefone do responsável</th>
+                    <th style="border: 0px;">E-mail do responsável</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr ng-repeat="aluno in aluno  | filter:criterio">
+                    <td>{{aluno.nome}}</td>
+                    <td>{{aluno.ra}}</td>
+                    <td>{{aluno.turma}}</td>
+                    <td>{{aluno.telefone}}</td>
+                    <td>{{aluno.email}}</td>
+                    <td>
+                        <button type="button" class="btn btn-warning" data-toggle="modal"
+                                data-target="#myModalEditar" ng-click="selecionaAluno(aluno)"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i>Editar</button>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-danger" data-toggle="modal"
+                                data-target="#myModalExcluir" ng-click="selecionaAluno(aluno)"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i>Excluir</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Novo Cadastro de Aluno</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-horizontal" role="form">
+                            <div class="form-group">
+                                <label class="control-label col-sm-2">Nome do aluno</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="Informe o nome"
+                                    ng-model="novoAluno.nome">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-sm-2">RA</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="Informe o RA"
+                                        ng-model="novoAluno.ra">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-sm-2">Turma</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="Informe a turma"
+                                        ng-model="novoAluno.turma">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-sm-2">Telefone</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="Infome o telefone"
+                                        ng-model="novoAluno.telefone">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-sm-2">E-mail</label>
+                                <div class="col-sm-10">
+                                    <input type="email" class="form-control" placeholder="Informe o e-mail"
+                                        ng-model="novoAluno.email">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <button type="submit" class="btn btn-primary"
+                                    ng-click="salvar()" data-dismiss="modal">Salvar dados</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+        <!-- Modal -->
+        <div class="modal fade" id="myModalEditar" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Editar Dados</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-horizontal" role="form">
+                            <div class="form-group">
+                                <label class="control-label col-sm-2">Nome do aluno</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="Informe o nome"
+                                    ng-model="alunoSelecionado.nome">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-sm-2">RA</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="Informe o RA"
+                                        ng-model="alunoSelecionado.ra">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-sm-2">Turma</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="Informe a turma"
+                                        ng-model="alunoSelecionado.turma">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-sm-2">Telefone</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="Informe o telefone"
+                                        ng-model="alunoSelecionado.telefone">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-sm-2">E-mail</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" placeholder="Informe o e-mail"
+                                        ng-model="alunoSelecionado.email">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <button type="submit" class="btn btn-primary"
+                                    ng-click="alterarAluno()" data-dismiss="modal">Salvar dados</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+        <!-- Modal -->
+        <div class="modal fade" id="myModalExcluir" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Você tem certeza?</h4>
+                    </div>
+                    <div class="modal-body">
+                        <h4 style="font-weight: bolder"> Você vai excluir o Cadastro de {{alunoSelecionado.nome}}</h4>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal"
+                        ng-click="excluirAluno()" data-dismiss="modal">Sim</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Não</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+    </body>
+</html>
